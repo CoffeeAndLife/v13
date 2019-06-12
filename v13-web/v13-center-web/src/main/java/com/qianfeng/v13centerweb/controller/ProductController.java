@@ -4,12 +4,10 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.qianfeng.v13.api.IProductService;
 import com.qianfeng.v13.entity.TProduct;
+import com.qianfeng.v13.pojo.TProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,4 +46,14 @@ public class ProductController {
 
         return "product/list";
     }
+
+
+    @PostMapping("add")
+    public String add(TProductVO vo){
+        Long id = productService.save(vo);
+        //重定向到第一页
+        //order by update_time desc
+        return "redirect:/product/page/1/1";
+    }
+
 }

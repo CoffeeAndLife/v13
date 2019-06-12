@@ -16,7 +16,7 @@
         <div class="row">
             <!--列偏移-->
             <div class="col-md-4 col-md-offset-8">
-                <button type="button" class="btn btn-primary">添加</button>
+                <button type="button" class="btn btn-primary" id="to-add">添加</button>
                 <button type="button" class="btn btn-danger">批量删除</button>
             </div>
         </div>
@@ -27,7 +27,9 @@
                 <!--表格展示数据-->
                 <table class="table table-hover">
                     <tr>
-                        <td>ID</td>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
                         <td>商品类别</td>
                         <td>名称 </td>
                         <td>价格</td>
@@ -36,7 +38,9 @@
                         <td>操作</td>
                     </tr>
                     <tr th:each="p : ${page.list}">
-                        <td th:text="${p.id}">1</td>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
                         <td th:text="${p.typeName}">电子数码</td>
                         <td th:text="${p.name}">笔记本</td>
                         <td th:text="${p.price}">9999</td>
@@ -45,8 +49,8 @@
                         </td>
                         <td th:text="${p.salePoint}">极速</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm">修改</button>
-                            <button type="button" class="btn btn-danger btn-sm">删除</button>
+                            <button type="button" class="btn btn-primary btn-sm btn-update" th:id="${p.id}">修改</button>
+                            <button type="button" class="btn btn-danger btn-sm btn-delete">删除</button>
                         </td>
                     </tr>
                 </table>
@@ -85,7 +89,122 @@
             </div>
         </div>
     </div>
+
+
+    <!--添加弹出层-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加商品</h4>
+                </div>
+                <div class="modal-body">
+                    <!--录入商品信息的表单-->
+                    <form class="form-horizontal" id="addForm" action="product/add" method="post">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">商品名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" placeholder="规则" name="product.name"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-sm-2 control-label">价格</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="price" name="product.price"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePrice" class="col-sm-2 control-label">促销价</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="salePrice" name="product.salePrice"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePoint" class="col-sm-2 control-label">卖点</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="salePoint" name="product.salePoint"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="images" class="col-sm-2 control-label">图片</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="images" name="product.images"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeId" class="col-sm-2 control-label">商品类别</label>
+                            <div class="col-sm-10">
+                                <!--TODO 修改成活的数据-->
+                                <!--版本一：展示的只是第一级分类 通过Ajax加载 -->
+                                <select class="form-control" id="typeId" name="product.typeId">
+                                    <option value="1">电子数码</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <!--版本二：ztree -->
+                                <!--根据用户的选择做改变！-->
+                                <input type="hidden" value="电子数码" name="product.typeName"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="productDesc" class="col-sm-2 control-label">描述</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="3" id="productDesc" name="productDesc"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="add">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            //为添加按钮绑定事件
+            $("#to-add").click(function () {
+                //控制层的弹出
+                $('#addModal').modal({
+                    backdrop : "static",
+                    keyboard : false
+                });
+            })
+
+            //为保存按钮绑定事件
+            $("#add").click(function () {
+                //?
+                $("#addForm").submit();
+            })
+
+            //为修改按钮绑定事件
+            $(".btn-update").click(function () {
+                //获取当前记录的id
+                var id = $(this).prop("id");
+                //根据id，异步获取数据，完成数据的回显
+                alert(id);
+            })
+
+            //为删除按钮绑定事件
+            $(".btn-delete").click(function () {
+                //获取当前记录的id
+                var id = $(this).prop("id");
+                //根据id进行异步的删除
+                //逻辑删除 flag=0
+                alert(id);
+            })
+
+
+        })
+    </script>
 </body>
 </html>

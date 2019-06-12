@@ -3,6 +3,7 @@ package com.qianfeng.v13productservice;
 import com.github.pagehelper.PageInfo;
 import com.qianfeng.v13.api.IProductService;
 import com.qianfeng.v13.entity.TProduct;
+import com.qianfeng.v13.pojo.TProductVO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +22,24 @@ public class V13ProductServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		PageInfo<TProduct> page = productService.page(1, 2);
-		System.out.println(page.getList().size());
+		//
+		TProduct product = new TProduct();
+		product.setName("高级Java程序员");
+		product.setPrice(20000L);
+		product.setSalePoint("多年的Java开发经验");
+		product.setImages("暂无");
+		product.setTypeId(1L);
+		product.setTypeName("电子数码");
+		product.setSalePrice(19999L);
+		product.setFlag(true);
+
+		TProductVO vo = new TProductVO();
+		vo.setProductDesc("这是一个资深的菜鸟！");
+		vo.setProduct(product);
+
+		Long id = productService.save(vo);
+		System.out.println(id);
+
 	}
 
 

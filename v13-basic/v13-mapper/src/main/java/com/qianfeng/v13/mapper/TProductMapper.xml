@@ -33,7 +33,7 @@
     delete from t_product
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.qianfeng.v13.entity.TProduct">
+  <insert id="insert" parameterType="com.qianfeng.v13.entity.TProduct" keyProperty="id" useGeneratedKeys="true">
     insert into t_product (id, name, price, 
       sale_price, images, sale_point, 
       type_id, type_name, flag)
