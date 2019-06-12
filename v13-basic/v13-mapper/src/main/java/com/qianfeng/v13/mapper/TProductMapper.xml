@@ -102,6 +102,14 @@
       </if>
     </trim>
   </insert>
+
+  <update id="batchUpdateFlag" parameterType="java.util.List">
+     update t_product set flag=0 where id IN
+     <foreach collection="list" open="(" close=")" separator="," item="id">
+       #{id}
+     </foreach>
+  </update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.v13.entity.TProduct">
     update t_product
     <set>

@@ -45,6 +45,7 @@
 			<artifactId>dubbo-spring-boot-starter</artifactId>
 			<version>0.2.0</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

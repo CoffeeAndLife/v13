@@ -16,4 +16,7 @@ public interface IProductService extends IBaseService<TProduct>{
 
     //返回新增的商品id
     public Long save(TProductVO vo);
+
+    //批量删除数据
+    public Long batchDel(List<Long> ids);
 }

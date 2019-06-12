@@ -17,7 +17,7 @@
             <!--列偏移-->
             <div class="col-md-4 col-md-offset-8">
                 <button type="button" class="btn btn-primary" id="to-add">添加</button>
-                <button type="button" class="btn btn-danger">批量删除</button>
+                <button type="button" class="btn btn-danger" id="to-batch-del">批量删除</button>
             </div>
         </div>
 
@@ -28,7 +28,8 @@
                 <table class="table table-hover">
                     <tr>
                         <td>
-                            <input type="checkbox"/>
+                            <!--全选复选框-->
+                            <input type="checkbox" id="checkAll"/>
                         </td>
                         <td>商品类别</td>
                         <td>名称 </td>
@@ -39,7 +40,7 @@
                     </tr>
                     <tr th:each="p : ${page.list}">
                         <td>
-                            <input type="checkbox"/>
+                            <input type="checkbox" class="cxb" th:value="${p.id}"/>
                         </td>
                         <td th:text="${p.typeName}">电子数码</td>
                         <td th:text="${p.name}">笔记本</td>
@@ -50,7 +51,7 @@
                         <td th:text="${p.salePoint}">极速</td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm btn-update" th:id="${p.id}">修改</button>
-                            <button type="button" class="btn btn-danger btn-sm btn-delete">删除</button>
+                            <button type="button" class="btn btn-danger btn-sm btn-delete" th:id="${p.id}">删除</button>
                         </td>
                     </tr>
                 </table>
@@ -129,6 +130,7 @@
                         <div class="form-group">
                             <label for="images" class="col-sm-2 control-label">图片</label>
                             <div class="col-sm-10">
+                                <input type="file" name="file"/>
                                 <input type="text" class="form-control" id="images" name="product.images"/>
                             </div>
                         </div>
@@ -165,8 +167,9 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
@@ -196,14 +199,67 @@
 
             //为删除按钮绑定事件
             $(".btn-delete").click(function () {
+
                 //获取当前记录的id
                 var id = $(this).prop("id");
-                //根据id进行异步的删除
-                //逻辑删除 flag=0
-                alert(id);
+                //发送Ajax请求
+                $.ajax({
+                    url :"product/delById/"+id,
+                    type:"POST",
+                    success:function (data) {
+                        if(data.statusCode == 200){
+                            alert(data.data);
+                            location.reload();
+                        }else{
+                            alert(data.data);
+                        }
+                    }
+                })
+
+            });
+
+            //实现全选的控制效果
+            //上面控制下面
+            $("#checkAll").click(function () {
+                $(".cxb").prop("checked",$(this).prop("checked"));
+            });
+            //下面控制上面
+            $(".cxb").click(function () {
+                //计算要不要把全选的勾上 过滤选择器
+                $("#checkAll").prop("checked",$(".cxb").length==$(".cxb:checked").length);
+            });
+
+            //实现批量删除
+            $("#to-batch-del").click(function () {
+                //1.获取被选中的复选框
+                var checkeds = $(".cxb:checked");
+                //2.
+                if(checkeds.length > 0){
+                    if(confirm("是否确定删除？删除之后，数据不可恢复！")){
+                        //2.组装成一个数组
+                        var ids = [];
+                        for(var i=0;i<checkeds.length;i++){
+                            ids.push(checkeds[i].value);
+                        }
+                        console.log(ids);
+                        //3.传递给后端
+                        $.ajax({
+                            url :"product/batchDel",
+                            data : "ids="+ids,
+                            type:"POST",
+                            success:function (data) {
+                                if(data.statusCode == 200){
+                                    alert(data.data);
+                                    location.reload();
+                                }else{
+                                    alert(data.data);
+                                }
+                            }
+                        })
+                    }
+                }
+
             })
-
-
         })
     </script>
 </body>

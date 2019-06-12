@@ -61,4 +61,24 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
         //3.返回新增商品的主键
         return product.getId();
     }
+
+    @Override
+    public Long batchDel(List<Long> ids) {
+        //update t_product set flag=0 where id in(1,2,3)
+        return productMapper.batchUpdateFlag(ids);
+    }
+
+    /**
+     * 由于我们现在是逻辑删除，所以需要重写
+     * @param id
+     * @return
+     */
+    @Override
+    public int deleteByPrimaryKey(Long id) {
+        // update t_product set flag=0 where id=#{id}
+        TProduct product = new TProduct();
+        product.setId(id);
+        product.setFlag(false);
+        return productMapper.updateByPrimaryKeySelective(product);
+    }
 }
