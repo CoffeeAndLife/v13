@@ -7,6 +7,8 @@
     <base href="/"/>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/uploadifive.css">
+
 </head>
 <body>
     <!--采用Bootstrap实现布局-->
@@ -128,10 +130,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="images" class="col-sm-2 control-label">图片</label>
+                            <label for="uploadImage" class="col-sm-2 control-label">图片</label>
                             <div class="col-sm-10">
-                                <input type="file" name="file"/>
-                                <input type="text" class="form-control" id="images" name="product.images"/>
+                                <input type="file" name="file" id="uploadImage"/>
+                                <img src="#" id="showImage" style="width:100px;height:100px;display: none;"/>
+                                <!--隐藏域保存图片的路径-->
+                                <input type="hidden" id="images" name="product.images"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -154,7 +158,10 @@
                         <div class="form-group">
                             <label for="productDesc" class="col-sm-2 control-label">描述</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" rows="3" id="productDesc" name="productDesc"></textarea>
+                                <div id="editor">
+                                    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                                </div>
+                                <input type="hidden" id="productDesc" name="productDesc"/>
                             </div>
                         </div>
                     </form>
@@ -172,6 +179,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 
+    <script src="js/jquery.uploadifive.js"></script>
+
+    <script src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+
     <script type="text/javascript">
         $(function () {
             //为添加按钮绑定事件
@@ -185,7 +196,9 @@
 
             //为保存按钮绑定事件
             $("#add").click(function () {
-                //?
+                //将富文本框的内容放到隐藏域
+                var content = editor.txt.html();
+                $("#productDesc").val(content);
                 $("#addForm").submit();
             })
 
@@ -260,6 +273,38 @@
                 }
 
             })
+
+            //初始化上传文件按钮
+            $('#uploadImage').uploadifive({
+                'uploadScript' : 'file/upload',
+                'buttonText' : '上传',
+                'fileObjName' : 'file',
+                'onUploadComplete' : function(file, data) {
+                    var jsonObj = JSON.parse(data);
+                    $("#showImage").attr("src",jsonObj.data).show();
+                    $("#images").val(jsonObj.data);
+                }
+            });
+
+            //初始化富文本框
+            var E = window.wangEditor;
+            var editor = new E('#editor');
+            // 自定义菜单配置
+            editor.customConfig.menus = [
+                'head',  // 标题
+                'bold',  // 粗体
+                'fontSize',  // 字号
+                'fontName',  // 字体
+                'italic',  // 斜体
+                'underline',  // 下划线
+                'strikeThrough',  // 删除线
+                'foreColor',  // 文字颜色
+                'backColor',  // 背景颜色
+                'image',  // 插入图片
+            ];
+            // 配置服务器端地址
+            editor.customConfig.uploadImgServer = '/file/upload';
+            editor.create();
         })
     </script>
 </body>
