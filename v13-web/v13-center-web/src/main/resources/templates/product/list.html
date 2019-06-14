@@ -48,7 +48,7 @@
                         <td th:text="${p.name}">笔记本</td>
                         <td th:text="${p.price}">9999</td>
                         <td>
-                            <img src="#" th:src="${p.images}"/>
+                            <img src="#" th:src="${p.images}" style="width: 100px;height: 100px;"/>
                         </td>
                         <td th:text="${p.salePoint}">极速</td>
                         <td>
@@ -303,7 +303,8 @@
                 'image',  // 插入图片
             ];
             // 配置服务器端地址
-            editor.customConfig.uploadImgServer = '/file/upload';
+            editor.customConfig.uploadImgServer = '/file/multiUpload';
+            editor.customConfig.uploadFileName = 'files';
             editor.create();
         })
     </script>

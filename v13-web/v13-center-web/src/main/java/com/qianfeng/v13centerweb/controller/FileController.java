@@ -3,6 +3,7 @@ package com.qianfeng.v13centerweb.controller;
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qianfeng.v13.common.pojo.ResultBean;
+import com.qianfeng.v13centerweb.pojo.WangeditorResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -42,5 +43,27 @@ public class FileController {
             e.printStackTrace();
         }
         return new ResultBean("404","由于网络发生抖动，上传失败！");
+    }
+
+    @PostMapping("multiUpload")
+    @ResponseBody
+    public WangeditorResultBean multiUpload(MultipartFile[] files){
+        String[] data = new String[files.length];
+        //依次上传文件
+        for (int i = 0; i < files.length; i++) {
+            String originalFilename = files[i].getOriginalFilename();//**.**
+            String extName = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
+            try {
+                StorePath storePath =
+                        client.uploadFile(files[i].getInputStream(), files[i].getSize(), extName, null);
+                String path = new StringBuilder(imageServer).append(storePath.getFullPath()).toString();
+                //将数据保存到数组中
+                data[i] = path;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new WangeditorResultBean("1",null);
+            }
+        }
+        return new WangeditorResultBean("0",data);
     }
 }

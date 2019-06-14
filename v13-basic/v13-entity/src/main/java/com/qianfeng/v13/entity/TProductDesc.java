@@ -1,6 +1,8 @@
 package com.qianfeng.v13.entity;
 
-public class TProductDesc {
+import java.io.Serializable;
+
+public class TProductDesc implements Serializable{
     private Long id;
 
     private Long productId;
