@@ -5,7 +5,9 @@ import com.qianfeng.v13.api.IProductTypeService;
 import com.qianfeng.v13.entity.TProductType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -26,5 +28,11 @@ public class IndexController {
         //2.将数据保存起来，到前端页面展示
         model.addAttribute("list",list);
         return "home";
+    }
+
+    @RequestMapping("list")
+    @ResponseBody
+    public List<TProductType> list(){
+        return productTypeService.list();
     }
 }

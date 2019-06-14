@@ -202,19 +202,19 @@
     <a href="JavaScript:;" class="sp-kj" kj="">
         商品分类快捷
     </a>
-    <div class="kj-show2">
-        <div class="kj-info1" mg="shiping" th:each="type : ${list}">
-            <dl class="kj-dl1" th:if="${type.pid == 0}">
+    <div class="kj-show2" id="typeMenus">
+        <div class="kj-info1" mg="shiping" th:each="type : ${list}" th:if="${type.pid == 0}" th:mg="|shiping${type.id}|">
+            <dl class="kj-dl1">
                 <!--第一级分类-->
                 <dt><a href="#" th:text="${type.name}">食品/饮料/酒水</a></dt>
             </dl>
-            <div class="kj-if-show" mg2="shiping">
+            <div class="kj-if-show" mg2="shiping" th:mg2="|shiping${type.id}|">
                 <dl th:each="sonType : ${list}" th:if="${sonType.pid == type.id}">
                     <!--第二级分类-->
                     <dt th:text="${sonType.name}">零食/糖果/巧克力</dt>
                     <dd>
                         <!--第三级分类-->
-                        <a href="#">坚果迷线</a>
+                        <a href="#" th:each="grandSonType : ${list}" th:if="${grandSonType.pid == sonType.id}" th:text="${grandSonType.name}">坚果迷线</a>
                     </dd>
                     <div style="clear:both;"></div>
                 </dl>
@@ -1435,5 +1435,20 @@
         沪ICP备13044278号<span>|</span>合字B1.B2-20130004<span>|</span>营业执照<span>|</span>互联网药品信息服务资格证<span>|</span>互联网药品交易服务资格证
     </p>
 </div>
+
+<script type="text/javascript">
+    /*$(function () {
+        $.ajax({
+            url:"index/list",
+            success:function(data){
+                //1.组装HTML
+                var html = "";
+                //2.存放信息
+                $("#typeMenus").html(html);
+            }
+        })
+    })*/
+    
+</script>
 </body>
 </html>
