@@ -1,0 +1,12 @@
+dubbo:
+  application:
+    name: search-web
+  registry:
+    protocol: zookeeper
+    address: 192.168.142.134:2181
+server:
+  port: 9092
+
+spring:
+  thymeleaf:
+    cache: false

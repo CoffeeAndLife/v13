@@ -1,5 +1,8 @@
 package com.qianfeng.v13searchservice;
 
+import com.qianfeng.v13.api.ISearchService;
+import com.qianfeng.v13.common.pojo.ResultBean;
+import com.qianfeng.v13.entity.TProduct;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -14,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,13 +26,36 @@ public class V13SearchServiceApplicationTests {
 	@Autowired
 	private SolrClient solrClient;
 
+	@Autowired
+	private ISearchService searchService;
+
+
+	//测试
+	//正常路径：
+	//非正常路径：
 	@Test
-	public void addTest() throws IOException, SolrServerException {
+	public void queryByKeywordsTest(){
+		ResultBean<List<TProduct>> resultBean = searchService.queryByKeywords("");
+		List<TProduct> products = resultBean.getData();
+		for (TProduct product : products) {
+			System.out.println(product.getId()+"->"+product.getName());
+		}
+	}
+
+	@Test
+	public void synAllDataTest(){
+		ResultBean resultBean = searchService.synAllData();
+		System.out.println(resultBean.getStatusCode());
+	}
+
+	@Test
+	public void addOrUpdateTest() throws IOException, SolrServerException {
 		//1.以document为基本单位
 		SolrInputDocument document = new SolrInputDocument();
+		// id不存在就是新增，id存在就是覆盖（更新）
 		document.setField("id",2);
 		document.setField("product_name","华为旗舰大龙虾");
-		document.setField("product_price",999);
+		document.setField("product_price",999999);
 		document.setField("product_images","123");
 		document.setField("product_sale_point","买三斤送一斤");
 		//2.保存document到solr索引库中
@@ -56,7 +83,23 @@ public class V13SearchServiceApplicationTests {
 	}
 
 	@Test
-	public void contextLoads() {
+	public void delByIdTest() throws IOException, SolrServerException {
+		solrClient.deleteById("2");
+		solrClient.commit();
+	}
+
+	@Test
+	public void delByConditionTest() throws IOException, SolrServerException {
+		//都会分词之后，再匹配
+		solrClient.deleteByQuery("product_name:华为旗舰大龙虾");
+		solrClient.commit();
+	}
+
+	@Test
+	public void delAllTest() throws IOException, SolrServerException {
+		//都会分词之后，再匹配
+		solrClient.deleteByQuery("*:*");
+		solrClient.commit();
 	}
 
 }

@@ -1,9 +1,11 @@
 package com.qianfeng.v13.common.pojo;
 
+import java.io.Serializable;
+
 /**
  * @author huangguizhao
  */
-public class ResultBean<T> {
+public class ResultBean<T> implements Serializable{
 
     private String statusCode;
     private T data;
