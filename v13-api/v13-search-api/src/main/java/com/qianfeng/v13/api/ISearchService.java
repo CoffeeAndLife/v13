@@ -14,9 +14,18 @@ public interface ISearchService {
     public ResultBean synAllData();
 
     /**
+     * 增量同步
+     * @param id
+     * @return
+     */
+    public ResultBean synDataById(Long id);
+
+    /**
      * 按照关键词进行搜索
      * @param keywords
      * @return
      */
     public ResultBean queryByKeywords(String keywords);
+
+
 }

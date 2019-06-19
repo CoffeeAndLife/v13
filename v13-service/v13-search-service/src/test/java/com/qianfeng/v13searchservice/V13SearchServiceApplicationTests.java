@@ -30,6 +30,12 @@ public class V13SearchServiceApplicationTests {
 	private ISearchService searchService;
 
 
+	@Test
+	public void synDataByIdTest(){
+		ResultBean resultBean = searchService.synDataById(9L);
+		System.out.println(resultBean.getStatusCode());
+	}
+
 	//测试
 	//正常路径：
 	//非正常路径：
@@ -53,15 +59,17 @@ public class V13SearchServiceApplicationTests {
 		//1.以document为基本单位
 		SolrInputDocument document = new SolrInputDocument();
 		// id不存在就是新增，id存在就是覆盖（更新）
-		document.setField("id",2);
-		document.setField("product_name","华为旗舰大龙虾");
-		document.setField("product_price",999999);
+		document.setField("id",666);
+		document.setField("product_name","湖人总冠军");
+		document.setField("product_price",888888);
 		document.setField("product_images","123");
-		document.setField("product_sale_point","买三斤送一斤");
+		document.setField("product_sale_point","卡哇伊");
 		//2.保存document到solr索引库中
-		solrClient.add(document);
+		//solrClient.add(document);
+		solrClient.add("collection2",document);
 		//3.提交
-		solrClient.commit();
+		//solrClient.commit();
+		solrClient.commit("collection2");
 		System.out.println("保存成功！");
 	}
 
@@ -70,10 +78,12 @@ public class V13SearchServiceApplicationTests {
 		//1.组装查询条件
 		SolrQuery queryCondition = new SolrQuery();
 		//分词，匹配
-		queryCondition.setQuery("product_name:华为旗舰大龙虾");
+		queryCondition.setQuery("product_name:湖人总冠军");
 
 		//2.执行查询
-		QueryResponse response = solrClient.query(queryCondition);
+		//QueryResponse response = solrClient.query(queryCondition);
+
+		QueryResponse response = solrClient.query("collection2",queryCondition);
 		//3.
 		SolrDocumentList solrDocuments = response.getResults();
 

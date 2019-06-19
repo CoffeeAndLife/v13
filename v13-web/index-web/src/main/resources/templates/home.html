@@ -53,10 +53,10 @@
         </ul>
         <div class="srh">
             <div class="ipt f-l">
-                <input type="text" placeholder="搜索商品..." ss-search-show="sp" />
+                <input type="text" placeholder="搜索商品..." ss-search-show="sp" id="keywords"/>
                 <input type="text" placeholder="搜索店铺..." ss-search-show="dp" style="display:none;" />
             </div>
-            <button class="f-r">搜 索</button>
+            <button class="f-r" id="search">搜 索</button>
             <div style="clear:both;"></div>
         </div>
         <ul class="sp2">
@@ -1436,18 +1436,16 @@
     </p>
 </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <script type="text/javascript">
-    /*$(function () {
-        $.ajax({
-            url:"index/list",
-            success:function(data){
-                //1.组装HTML
-                var html = "";
-                //2.存放信息
-                $("#typeMenus").html(html);
-            }
+    $(function () {
+        $("#search").click(function () {
+            var keywords = $("#keywords").val();
+            //发送请求给到搜索系统
+            location.href = "http://localhost:9092/search/queryByKeywords?keywords="+keywords;
         })
-    })*/
+    })
     
 </script>
 </body>

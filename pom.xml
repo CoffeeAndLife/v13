@@ -13,6 +13,7 @@
         <module>v13-api</module>
         <module>v13-service</module>
         <module>v13-web</module>
+        <module>v13-temp</module>
     </modules>
 
 
