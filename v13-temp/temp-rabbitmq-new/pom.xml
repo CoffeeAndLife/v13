@@ -3,18 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>v13</artifactId>
+        <artifactId>v13-temp</artifactId>
         <groupId>com.qianfeng</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>v13-temp</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>temp-httpclient</module>
-        <module>temp-rabbitmq-new</module>
-    </modules>
+    <artifactId>temp-rabbitmq-new</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+    </dependencies>
 </project>

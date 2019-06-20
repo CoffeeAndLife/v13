@@ -10,6 +10,12 @@ server:
 spring:
   thymeleaf:
     cache: false
+  rabbitmq:
+    host: 192.168.142.133
+    port: 5672
+    username: huang
+    password: 123
+    virtual-host: /huang
 
 fdfs:
   so-timeout: 1500
