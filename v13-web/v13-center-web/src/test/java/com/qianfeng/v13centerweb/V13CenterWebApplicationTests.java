@@ -21,6 +21,7 @@ public class V13CenterWebApplicationTests {
 
 	@Test
 	public void uploadTest() throws FileNotFoundException {
+
 		//1.SpringBoot整合FastDFS，实现文件的上传
 		File file = new File("D:\\dev\\v13\\v13-web\\v13-center-web\\1.html");
 		FileInputStream fileInputStream =

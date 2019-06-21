@@ -1,4 +1,4 @@
-package com.qianfeng.rabbitmq.simple;
+package com.qianfeng.rabbitmq.work;
 
 import com.rabbitmq.client.*;
 
@@ -8,9 +8,9 @@ import java.util.concurrent.TimeoutException;
 /**
  * @author huangguizhao
  */
-public class MyConsumer {
+public class MyConsumer1 {
 
-    private static String queue_name = "simple_queue";
+    private static String queue_name = "work_queue";
 
     public static void main(String[] args) throws IOException, TimeoutException {
         //1.创建连接对象
@@ -24,18 +24,28 @@ public class MyConsumer {
         Connection connection = factory.newConnection();
         //2.创建本次交互的通道
         Channel channel = connection.createChannel();
+
+        //起到限流作用。每次只接受一个消息
+        channel.basicQos(1);
         //3.消息者监听队列，获取消息
         Consumer consumer = new DefaultConsumer(channel){
             //等着有消息回调该方法
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String msg = new String(body);
-                System.out.println("接收到消息："+msg);
-
+                System.out.println("消费者1接收到消息："+msg);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //处理结束之后，回复结果
+                //multiple: fasle 是否批量确认
+                channel.basicAck(envelope.getDeliveryTag(),false);
             }
         };
         //4.消息者需要来监听队列
-        //autoAck：自动回复
-        channel.basicConsume(queue_name,true,consumer);
+        //autoAck：自动回复 ---》 手工回复
+        channel.basicConsume(queue_name,false,consumer);
     }
 }

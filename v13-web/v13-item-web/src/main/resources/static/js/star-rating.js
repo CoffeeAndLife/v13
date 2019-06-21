@@ -38,7 +38,7 @@
         return parseFloat(val.toFixed(precision));
     };
 
-    // Rating public class definition
+    // Rating publish class definition
     var Rating = function (element, options) {
         this.$element = $(element);
         this.init(options);

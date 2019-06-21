@@ -10,3 +10,9 @@ server:
 spring:
   thymeleaf:
     cache: false
+  rabbitmq:
+    host: 192.168.142.134
+    port: 5672
+    username: java1902
+    password: 123
+    virtual-host: /java1902

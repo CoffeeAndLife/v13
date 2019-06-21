@@ -4,10 +4,13 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.qianfeng.v13.api.IProductService;
 import com.qianfeng.v13.api.ISearchService;
+import com.qianfeng.v13.common.constant.RabbitMQConstant;
 import com.qianfeng.v13.common.pojo.ResultBean;
 import com.qianfeng.v13.common.util.HttpClientUtils;
 import com.qianfeng.v13.entity.TProduct;
 import com.qianfeng.v13.pojo.TProductVO;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,9 @@ public class ProductController {
 
     @Reference
     private ISearchService searchService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping("get/{id}")
     @ResponseBody
@@ -64,13 +70,15 @@ public class ProductController {
         //100000 1 全量同步，不适合后期的数据同步策略
         //searchService.synAllData();
         //后期的数据同步策略，应该是增量
-        searchService.synDataById(id);
+        //searchService.synDataById(id);
         //生成商品对应的静态页面
         //像浏览器一样的调用静态详情页的接口
         //http://localhost:9093/item/createHTMLById/1
         //
-        HttpClientUtils.doGet("http://localhost:9093/item/createHTMLById/"+id);
+        //HttpClientUtils.doGet("http://localhost:9093/item/createHTMLById/"+id);
 
+        //发送一个消息到交换机
+        rabbitTemplate.convertAndSend(RabbitMQConstant.CENTER_PRODUCT_EXCHANGE,"product.add",id);
 
         return "redirect:/product/page/1/1";
     }
