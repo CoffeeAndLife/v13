@@ -1,0 +1,25 @@
+dubbo:
+  application:
+    name: register-web
+  registry:
+    protocol: zookeeper
+    address: 192.168.142.134:2181
+server:
+  port: 9094
+
+spring:
+  thymeleaf:
+    cache: false
+  rabbitmq:
+    host: 192.168.142.134
+    port: 5672
+    username: java1902
+    password: 123
+    virtual-host: /java1902
+  redis:
+    host: 192.168.142.134
+    port: 6379
+    password: java1902
+    jedis:
+      pool:
+        max-active: 66

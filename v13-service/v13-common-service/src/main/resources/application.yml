@@ -1,0 +1,27 @@
+dubbo:
+  application:
+    name: common-service
+  registry:
+    protocol: zookeeper
+    address: 192.168.142.134:2181
+  protocol:
+    port: 28813
+
+spring:
+  mail:
+    host: smtp.163.com
+    username: javaeechina@163.com
+    password:
+    default-encoding: UTF-8
+  rabbitmq:
+    host: 192.168.142.134
+    port: 5672
+    username: java1902
+    password: 123
+    virtual-host: /java1902
+
+
+mail:
+  fromAddr: javaeechina@163.com
+server:
+  port: 8083

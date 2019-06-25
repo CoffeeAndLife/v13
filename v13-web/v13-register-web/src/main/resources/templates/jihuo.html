@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    欢迎<span th:text="${username}">***</span>加入我们疯狂购物系统，请点击以下链接进行激活：
+    <a href="https://www.baidu.com" th:href="${href}">激活</a>
+</body>
+</html>
