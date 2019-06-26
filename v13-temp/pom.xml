@@ -14,6 +14,8 @@
     <modules>
         <module>temp-httpclient</module>
         <module>temp-rabbitmq-new</module>
+        <module>temp-jedis</module>
+        <module>temp-javase</module>
     </modules>
 
 
