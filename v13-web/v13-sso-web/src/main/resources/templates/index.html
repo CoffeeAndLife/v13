@@ -19,17 +19,19 @@
 <div class="sign-con w1200">
     <img src="images/logn-tu.gif" class="sign-contu f-l" />
     <div class="sign-ipt f-l">
-        <p>用户名</p>
-        <input type="text" placeholder="手机号/邮箱" />
-        <p>密码</p>
-        <input type="text" placeholder="密码可见" /><br />
-        <button class="slig-btn">登录</button>
-        <p>已有账号？请<a href="#">登录</a><a href="#" class="wj">忘记密码？</a></p>
-        <div class="sign-qx">
-            <a href="#" class="f-r"><img src="images/sign-xinlan.gif" /></a>
-            <a href="#" class="qq f-r"><img src="images/sign-qq.gif" /></a>
-            <div style="clear:both;"></div>
-        </div>
+        <form action="sso/checkLogin" method="post">
+            <p>用户名</p>
+            <input type="text" placeholder="手机号/邮箱" id="username" name="username"/>
+            <p>密码</p>
+            <input type="password" placeholder="密码可见" id="password" name="password"/><br />
+            <button class="slig-btn">登录</button>
+            <p>已有账号？请<a href="#">登录</a><a href="#" class="wj">忘记密码？</a></p>
+            <div class="sign-qx">
+                <a href="#" class="f-r"><img src="images/sign-xinlan.gif" /></a>
+                <a href="#" class="qq f-r"><img src="images/sign-qq.gif" /></a>
+                <div style="clear:both;"></div>
+            </div>
+        </form>
     </div>
     <div style="clear:both;"></div>
 </div>
@@ -102,6 +104,11 @@
         沪ICP备13044278号<span>|</span>合字B1.B2-20130004<span>|</span>营业执照<span>|</span>互联网药品信息服务资格证<span>|</span>互联网药品交易服务资格证
     </p>
 </div>
+
+<script type="text/javascript">
+
+
+</script>
 
 </body>
 </html>
