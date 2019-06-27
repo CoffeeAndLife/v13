@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>在线商城首页</title>
+    <title>在线商城首页!!!</title>
     <base href="/"/>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/shopping-mall-index.css" />
@@ -15,10 +15,7 @@
 <!--top 开始-->
 <div class="top">
     <div class="top-con w1200">
-        <p class="t-con-l f-l">
-            您好，欢迎来到宅客微购
-            <a href="http://sso.qf.com:9095/sso/showLogin">登录</a>
-        </p>
+        <p class="t-con-l f-l">您好，欢迎来到宅客微购</p>
         <ul class="t-con-r f-r">
             <li><a href="#">我 (个人中心)</a></li>
             <li><a href="#">我的购物车</a></li>
@@ -1443,6 +1440,15 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 
 <script type="text/javascript">
+    function deal(data){
+        console.log(data);
+    }
+
+</script>
+<!--jsonp-->
+<!--<script src="http://localhost:9095/sso/checkIsLoginJsonp?callback=deal"></script>-->
+
+<script type="text/javascript">
     $(function () {
         $("#search").click(function () {
             var keywords = $("#keywords").val();
@@ -1451,13 +1457,13 @@
         })
 
         //检查当前用户的登录状态
+        //ajax不支持非同源的访问（协议域名端口三者都要相同）
+        //那么当从服务器接收到数据时，实际上是用了&lt;script&gt;标签而不是XMLHttpRequest对象。
         $.ajax({
-            url:"http://sso.qf.com:9095/sso/checkIsLogin",
-            crossDomain:true,
-            xhrFields:{withCredentials:true},
-            success:function (data) {
-                console.log(data);//404
-            }
+            url:"http://localhost:9095/sso/checkIsLoginJsonp",
+            jsonp:"callback",
+            jsonpCallback:"deal",
+            dataType:"jsonp"
         })
     })
     

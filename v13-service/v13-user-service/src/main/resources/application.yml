@@ -1,3 +1,4 @@
+
 dubbo:
   application:
     name: user-service
@@ -30,3 +31,5 @@ spring:
         max-active: 66
 
 public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJL01bOtE7n5l9qDGZ8bvrqC2Kym0zLuTMhOR2wps2ociO9QRylC+NjIN7nNLY6FPJUsV753cVOu/hDEJGxnIv8CAwEAAQ==
+server:
+  port: 8083

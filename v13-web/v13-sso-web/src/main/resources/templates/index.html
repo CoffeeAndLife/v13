@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>登录</title>
@@ -31,8 +32,10 @@
                 <a href="#" class="qq f-r"><img src="images/sign-qq.gif" /></a>
                 <div style="clear:both;"></div>
             </div>
+            <!--隐藏域-->
+            <input type="hidden" name="referer" th:value="${referer}"/>
         </form>
-    </div>
+    </div>referer
     <div style="clear:both;"></div>
 </div>
 
