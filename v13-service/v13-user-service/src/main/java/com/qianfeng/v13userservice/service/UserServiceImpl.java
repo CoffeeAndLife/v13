@@ -7,11 +7,9 @@ import com.qianfeng.v13.common.base.IBaseDao;
 import com.qianfeng.v13.common.pojo.ResultBean;
 import com.qianfeng.v13.entity.TUser;
 import com.qianfeng.v13.mapper.TUserMapper;
+import com.qianfeng.v13userservice.util.JwtUtils;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author huangguizhao
@@ -21,9 +19,6 @@ public class UserServiceImpl extends BaseServiceImpl<TUser> implements IUserServ
 
     @Autowired
     private TUserMapper userMapper;
-
-    @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
 
     @Override
     public IBaseDao<TUser> getBaseDao() {
@@ -45,17 +40,14 @@ public class UserServiceImpl extends BaseServiceImpl<TUser> implements IUserServ
         TUser currnetUser = userMapper.selectByUsername(user.getUsername());
         if(currnetUser != null){
             if(currnetUser.getPassword().equals(user.getPassword())){
-                //合法账号
-                //2.操作Redis保存凭证
-                String uuid = UUID.randomUUID().toString();
-                String key = new StringBuilder("user:token:").append(uuid).toString();
-                //去掉密码信息
-                user.setPassword(null);
-                redisTemplate.opsForValue().set(key,user);
-                //设置有效期
-                redisTemplate.expire(key,30, TimeUnit.MINUTES);
-                //返回信息
-                return new ResultBean("200",uuid);
+                JwtUtils jwtUtils = new JwtUtils();
+                jwtUtils.setSecretKey("java1902");
+                jwtUtils.setTtl(30*60*1000);
+
+                String jwtToken = jwtUtils.createJwtToken(currnetUser.getId().toString(), currnetUser.getUsername());
+
+                //将生成的令牌传回给客户端
+                return new ResultBean("200",jwtToken);
             }
         }
         //验证不通过
@@ -64,28 +56,19 @@ public class UserServiceImpl extends BaseServiceImpl<TUser> implements IUserServ
 
     @Override
     public ResultBean checkIsLogin(String uuid) {
-        //1.组装key
-        String key = new StringBuilder("user:token:").append(uuid).toString();
-        //2.根据key查询redis
-        TUser currentUser = (TUser) redisTemplate.opsForValue().get(key);
-        //3.判断
-        if (currentUser != null){
-            //4.刷新凭证的有效期
-            redisTemplate.expire(key,30,TimeUnit.MINUTES);
-            return new ResultBean("200",currentUser);
-        }
-        return new ResultBean("404",null);
-    }
+        try {
+            JwtUtils jwtUtils = new JwtUtils();
+            jwtUtils.setSecretKey("java1902");
+            Claims claims = jwtUtils.parseJwtToken(uuid);
+            //TODO 刷新凭证的有效期
+            TUser user = new TUser();
+            user.setId(Long.parseLong(claims.getId()));
+            user.setUsername(claims.getSubject());
 
-    @Override
-    public ResultBean logout(String uuid) {
-        //1.拼接key
-        String key = new StringBuilder("user:token:").append(uuid).toString();
-        //2.删除
-        Boolean delete = redisTemplate.delete(key);
-        if (delete){
-           return new ResultBean("200","删除成功！");
+            return new ResultBean("200",user);
+        }catch (Exception e){
+            //当令牌不正确或者过期都会抛出异常
+            return new ResultBean("404",null);
         }
-        return new ResultBean("404","删除失败！");
     }
 }

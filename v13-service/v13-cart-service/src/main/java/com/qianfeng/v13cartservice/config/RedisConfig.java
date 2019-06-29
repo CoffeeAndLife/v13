@@ -1,4 +1,4 @@
-package com.qianfeng.v13userservice.config;
+package com.qianfeng.v13cartservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +12,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-    @Bean(name = "redisTemplate")
+    @Bean(name = "redisTemplate1")
     public RedisTemplate<String,Object> getRedisTemplate(RedisConnectionFactory connectionFactory){
         RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         return redisTemplate;
     }
+
 }

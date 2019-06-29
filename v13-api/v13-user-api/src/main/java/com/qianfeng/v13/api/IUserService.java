@@ -23,10 +23,4 @@ public interface IUserService extends IBaseService<TUser> {
      */
     public ResultBean checkIsLogin(String uuid);
 
-    /**
-     *
-     * @param uuid 保存在客户端的凭证信息
-     * @return
-     */
-    public ResultBean logout(String uuid);
 }

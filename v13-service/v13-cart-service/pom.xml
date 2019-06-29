@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.qianfeng</groupId>
-	<artifactId>v13-user-service</artifactId>
+	<artifactId>v13-cart-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>v13-user-service</name>
+	<name>v13-cart-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -19,7 +19,6 @@
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -33,7 +32,7 @@
 
 		<dependency>
 			<groupId>com.qianfeng</groupId>
-			<artifactId>v13-user-api</artifactId>
+			<artifactId>v13-cart-api</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
@@ -49,14 +48,10 @@
 			<version>0.2.0</version>
 		</dependency>
 
-		<!--jjwt-->
 		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>

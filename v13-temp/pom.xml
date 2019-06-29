@@ -16,6 +16,7 @@
         <module>temp-rabbitmq-new</module>
         <module>temp-jedis</module>
         <module>temp-javase</module>
+        <module>temp-jwt</module>
     </modules>
 
 

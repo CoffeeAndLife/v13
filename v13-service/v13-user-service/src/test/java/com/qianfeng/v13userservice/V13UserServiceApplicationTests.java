@@ -36,10 +36,5 @@ public class V13UserServiceApplicationTests {
 		}
 	}
 
-	@Test
-	public void logoutTest(){
-		ResultBean logout = userService.logout("65d8d17a-ee86-4556-9aca-9abe1ad3fda3");
-		System.out.println(logout.getStatusCode());
-	}
 
 }

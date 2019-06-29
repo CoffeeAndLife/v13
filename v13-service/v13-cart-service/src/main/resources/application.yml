@@ -1,14 +1,20 @@
-
 dubbo:
   application:
-    name: user-service
+    name: cart-service
   registry:
     protocol: zookeeper
     address: 192.168.142.134:2181
   protocol:
-    port: 28812
+    port: 28814
 
 spring:
+  redis:
+    host: 192.168.142.134
+    port: 6379
+    password: java1902
+    jedis:
+      pool:
+        max-active: 66
   datasource:
     url: jdbc:mysql://localhost:3306/v13?serverTimezone=UTC
     driver-class-name: com.mysql.jdbc.Driver
@@ -24,5 +30,3 @@ spring:
         connection-properties: config.decrypt=true;config.decrypt.key=${public-key}
 
 public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJL01bOtE7n5l9qDGZ8bvrqC2Kym0zLuTMhOR2wps2ociO9QRylC+NjIN7nNLY6FPJUsV753cVOu/hDEJGxnIv8CAwEAAQ==
-server:
-  port: 8083

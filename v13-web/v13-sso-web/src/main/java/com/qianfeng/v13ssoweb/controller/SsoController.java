@@ -63,7 +63,7 @@ public class SsoController {
             //3.返回一个视图
             //登录成功，返回到首页系统
             //从哪来回哪去
-            if (referer == null){
+            if (referer == null || "".equals(referer)){
                 return "redirect:http://www.qf.com:9091/index/home";
             }
             return "redirect:"+referer;
@@ -161,8 +161,8 @@ public class SsoController {
             cookie.setMaxAge(0);
             //把cookie写到客户端
             response.addCookie(cookie);
-            //删除redis的凭证
-            return userService.logout(uuid);
+
+            return new ResultBean("200","注销成功！");
         }
         return new ResultBean("404","注销失败！");
     }

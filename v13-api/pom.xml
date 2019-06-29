@@ -16,6 +16,7 @@
         <module>v13-search-api</module>
         <module>v13-user-api</module>
         <module>v13-common-api</module>
+        <module>v13-cart-api</module>
     </modules>
 
 

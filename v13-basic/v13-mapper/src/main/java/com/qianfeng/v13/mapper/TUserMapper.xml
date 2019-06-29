@@ -17,9 +17,9 @@
   </sql>
 
   <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select username,password from t_user
-    where username=#{username,jdbcType=VARCHAR} or phone= #{username,jdbcType=VARCHAR}
-    and flag=1 and status = 1
+    select id,username,password from t_user
+    where flag=1 and status = 1
+    and username=#{username,jdbcType=VARCHAR} or phone= #{username,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
