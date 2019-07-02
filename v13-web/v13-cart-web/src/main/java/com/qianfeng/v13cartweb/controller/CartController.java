@@ -147,4 +147,14 @@ public class CartController {
     //1.修改删除和更新，区分登录和未登录
     //2.cart-service 提供一个合并购物车的接口，将未登录合并到已登录上面，干掉未登录
     //3.登录成功之后，调用该接口，实现购物车合并
+
+    @RequestMapping("merge")
+    @ResponseBody
+    public ResultBean merge(@CookieValue(name = "user_cart", required = false) String uuid){
+        //
+        //1.获取到未登录购物车（cookie ---> uuid）
+        //2.为获取到已登录购物车(userId)
+        //3.调用service进行合并
+        return null;
+    }
 }

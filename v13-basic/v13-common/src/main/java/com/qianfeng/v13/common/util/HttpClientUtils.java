@@ -34,6 +34,8 @@ public class HttpClientUtils {
                 }
             }
             HttpGet getRequest = new HttpGet(uriBuilder.build());
+
+            getRequest.setHeader("Cookie","user_cart=b27aced7-3942-4309-bd52-817842f8296f; user_token=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiYWRtaW4iLCJpYXQiOjE1NjE5NDU5NDEsImV4cCI6MTU2MTk0Nzc0MX0.l8PMH6e--yaLQrGfPg85Lo0PXLw-whH");
             CloseableHttpResponse response = null;
             //3.敲回车
             response = client.execute(getRequest);

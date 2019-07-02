@@ -29,7 +29,6 @@ public class SsoController {
     @Reference
     private IUserService userService;
 
-
     @RequestMapping("showLogin")
     public String showLogin(HttpServletRequest request, Model model){
         String  referer = request.getHeader("Referer");
@@ -63,6 +62,11 @@ public class SsoController {
             //3.返回一个视图
             //登录成功，返回到首页系统
             //从哪来回哪去
+            //调用购物车的合并接口
+            //获取到cookie
+            //
+            //HttpClientUtils.doGet("http://cart.qf.com:9096/cart/merge");
+
             if (referer == null || "".equals(referer)){
                 return "redirect:http://www.qf.com:9091/index/home";
             }
