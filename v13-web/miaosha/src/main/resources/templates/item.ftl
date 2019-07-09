@@ -766,7 +766,7 @@
                 <div style="clear:both;"></div>
             </dl>
             <div class="dt-ifm-box4">
-                <button class="btn1">进店点菜</button>
+                <button class="btn1" id="seckill">立即抢购</button>
                 <button class="btn2">加入购物车</button>
                 <button class="btn3">收藏</button>
             </div>
@@ -1134,5 +1134,24 @@
         沪ICP备13044278号<span>|</span>合字B1.B2-20130004<span>|</span>营业执照<span>|</span>互联网药品信息服务资格证<span>|</span>互联网药品交易服务资格证
     </p>
 </div>
+
+<script type="text/javascript">
+    
+    $(function () {
+        $("#seckill").click(function () {
+            $.ajax({
+                url:"seckill/sale?seckillId=1&userId=1",
+                success:function (result) {
+                    if(result.statusCode == "200"){
+                        //此时订单正在生成的过程中，等到订单生成之后，再真正展示订单支付页面
+                        alert("正在跳转到订单支付页面...."+result.data);
+                    }else{
+                        alert(result.data);
+                    }
+                }
+            })
+        })
+    })
+</script>
 </body>
 </html>

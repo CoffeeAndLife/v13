@@ -1,10 +1,14 @@
 package com.qianfeng.miaosha.service.impl;
 
 import com.qianfeng.miaosha.entity.TProduct;
+import com.qianfeng.miaosha.entity.TSeckill;
+import com.qianfeng.miaosha.exception.SeckillException;
 import com.qianfeng.miaosha.mapper.TProductMapper;
+import com.qianfeng.miaosha.mapper.TSeckillMapper;
 import com.qianfeng.miaosha.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +41,8 @@ public class ProductServiceImpl implements IProductService{
         }
         return false;
     }
+
+
 
     //@Override
     @Transactional

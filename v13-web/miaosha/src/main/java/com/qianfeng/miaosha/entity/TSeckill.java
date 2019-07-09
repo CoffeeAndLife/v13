@@ -1,9 +1,10 @@
 package com.qianfeng.miaosha.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TSeckill {
+public class TSeckill implements Serializable{
     private Long id;
 
     private Long productId;

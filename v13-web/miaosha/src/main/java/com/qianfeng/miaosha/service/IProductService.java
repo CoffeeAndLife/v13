@@ -10,4 +10,6 @@ public interface IProductService {
     public TProduct getById(Long id);
 
     boolean sale(Long id);
+
+
 }

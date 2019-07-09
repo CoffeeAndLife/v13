@@ -33,7 +33,7 @@ public class SeckillTask {
             for (TSeckill seckill : seckills) {
                 seckill.setStatus("1");
                 seckillMapper.updateByPrimaryKeySelective(seckill);
-                System.out.println("秒杀活动："+seckill.getId()+"-》已经开启！");
+                //System.out.println("秒杀活动："+seckill.getId()+"-》已经开启！");
                 //创建一个待秒杀的商品队列
                 String key = new StringBuilder("seckill:product:").append(seckill.getId()).toString();
                 //确定队列的长度
@@ -41,8 +41,12 @@ public class SeckillTask {
                 for (Integer i = 0; i < count; i++) {
                     redisTemplate.opsForList().leftPush(key,seckill.getProductId());
                 }
-                System.out.println("redis秒杀队列准备就绪！");
+                //System.out.println("redis秒杀队列准备就绪！");
                 //seckill:product:2 --------  list(1,1,1,1,1)
+
+                //保存秒杀活动的信息到缓存中，避免后续的时候反复查询数据库
+                String seckillKey = new StringBuilder("seckill:").append(seckill.getId()).toString();
+                redisTemplate.opsForValue().set(seckillKey,seckill);
             }
         }
     }
@@ -51,7 +55,7 @@ public class SeckillTask {
     //2.定时扫描，关闭秒杀活动
     @Scheduled(cron = "0/10 * * * * *")
     public void stopSeckill(){
-        System.out.println("开始扫描秒杀活动表，根据时间关闭符合条件的秒杀活动");
+        //System.out.println("开始扫描秒杀活动表，根据时间关闭符合条件的秒杀活动");
         //1.查询秒杀表
         List<TSeckill> seckills = seckillMapper.getCanStopSeckill();
         //2.获取到符合条件的记录(已到点，但未结束的秒杀活动)
